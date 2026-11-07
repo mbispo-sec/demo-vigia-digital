@@ -1,195 +1,235 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Vigia Digital — Demonstração</title>
+  
+  <!-- Fontes e Ícones -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
   <style>
+    :root {
+      --navy: #102a43;
+      --navy-light: #1a3c5a;
+      --teal: #087e8b;
+      --teal-dark: #06636d;
+      --bg: #f5f8fa;
+      --white: #ffffff;
+      --text: #172b3a;
+      --muted: #647b8c;
+      --line: #e1e7ec;
+      --red: #d13a48;
+      --red-bg: #fff2f3;
+      --orange: #f59f00;
+      --orange-bg: #fff8e6;
+      --blue: #2a81cb;
+      --blue-bg: #eef5fb;
+      --green: #17643b;
+      --shadow: 0 2px 10px rgba(16, 42, 67, .05);
+      --font: 'Inter', system-ui, sans-serif;
+    }
+
     * { box-sizing: border-box; }
 
     body {
       margin: 0;
-      font: 16px Arial, sans-serif;
-      color: #173042;
-      background: #f3f6f8;
+      color: var(--text);
+      background: var(--bg);
+      font-family: var(--font);
+      line-height: 1.5;
     }
 
-    header {
-      padding: 20px 7%;
+    button, input { font-family: var(--font); font-size: 14px; }
+
+    .layout { 
+      display: flex; 
+      min-height: 100vh; 
+    }
+
+    /* Menu Lateral */
+    aside {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 260px;
+      padding: 30px 20px;
       color: white;
-      background: #102a43;
+      background: var(--navy);
+      display: flex;
+      flex-direction: column;
     }
 
-    header strong { font-size: 22px; }
-
-    main {
-      max-width: 1050px;
-      margin: 32px auto;
-      padding: 0 20px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 40px;
+      font-weight: 700;
+      font-size: 20px;
+      color: white;
     }
 
-    .demo {
-      padding: 12px 16px;
-      border: 1px solid #b9d9e7;
+    .brand i {
+      font-size: 28px;
+      color: #e2f4f5;
+    }
+
+    nav { display: grid; gap: 8px; flex: 1; }
+
+    nav button {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      width: 100%;
+      border: 0;
       border-radius: 8px;
-      background: #eaf3f8;
+      padding: 12px 16px;
+      text-align: left;
+      color: #a4b8c6;
+      background: transparent;
+      cursor: pointer;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.2s;
     }
 
+    nav button i { font-size: 20px; }
+    nav button:hover { background: var(--navy-light); color: white; }
+    nav button.active { background: var(--navy-light); color: white; font-weight: 600; }
+    nav button.active i { color: #62b0b8; }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: white;
+    }
+    
+    .sidebar-footer i { font-size: 28px; color: #4b6a82; }
+    .sidebar-footer h4 { margin: 0; font-size: 14px; font-weight: 600; }
+    .sidebar-footer p { margin: 0; font-size: 12px; color: #8a9fb1; }
+
+    /* Área Principal */
+    main {
+      margin-left: 260px;
+      padding: 40px;
+      width: calc(100% - 260px);
+      max-width: 1300px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    h1 { margin: 0 0 4px; font-size: 28px; font-weight: 700; }
+    h2 { margin: 0; font-size: 20px; font-weight: 600; }
+    p { margin: 0; }
+    .muted { color: var(--muted); }
+
+    .demo-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: white;
+      padding: 10px 16px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .demo-badge i { font-size: 16px; }
+
+    /* Cartões */
     .cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 24px;
+    }
+
+    .card {
+      display: flex;
+      align-items: center;
       gap: 16px;
-      margin: 20px 0;
+      background: var(--white);
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      border: 1px solid var(--line);
     }
 
-    .card, .panel {
-      padding: 20px;
-      border: 1px solid #d9e2e8;
+    .card-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 50px;
+      height: 50px;
       border-radius: 10px;
-      background: white;
+      font-size: 28px;
     }
 
-    .number { margin-top: 8px; font-size: 30px; font-weight: bold; }
-    .muted { color: #526777; }
+    .card:nth-child(1) .card-icon { background: #e0f2f3; color: var(--teal); }
+    .card:nth-child(2) .card-icon { background: var(--orange-bg); color: var(--orange); }
+    .card:nth-child(3) .card-icon { background: var(--red-bg); color: var(--red); }
 
-    .urgent {
-      border-left: 5px solid #a82727;
-      background: #fffafa;
+    .card-label { font-size: 14px; font-weight: 600; color: var(--text); }
+    .card-value { font-size: 32px; font-weight: 700; line-height: 1.1; margin-top: 4px; }
+
+    /* Painéis */
+    .panel {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      box-shadow: var(--shadow);
+      margin-bottom: 24px;
+      padding: 24px;
     }
 
-    .tag {
+    .panel-urgent {
+      display: flex;
+      gap: 24px;
+      border-left: 6px solid var(--red);
+      background: #fdfafb;
+    }
+
+    .urgent-icon {
+      font-size: 40px;
+      color: var(--red);
+      margin-top: 5px;
+    }
+
+    .urgent-content { flex: 1; }
+
+    .urgent-badge {
       display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      color: #8a2020;
-      background: #fff0ef;
-      font-size: 13px;
-      font-weight: bold;
-    }
-
-    button {
-      padding: 11px 15px;
-      border: 0;
-      border-radius: 7px;
+      background: var(--red);
       color: white;
-      background: #087e8b;
-      font-weight: bold;
-      cursor: pointer;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 4px;
+      margin-bottom: 12px;
     }
 
-    button:hover { background: #06636d; }
-
-    .row {
-      padding: 15px 0;
-      border-top: 1px solid #d9e2e8;
+    .urgent-title {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--navy);
+      margin-bottom: 8px;
     }
 
-    input {
-      max-width: 420px;
-      width: 100%;
-      padding: 11px;
-      border: 1px solid #9eb0bc;
-      border-radius: 7px;
-    }
-
-    @media (max-width: 650px) {
-      .cards { grid-template-columns: 1fr; }
-    }
-  </style>
-</head>
-<body>
-  <header>
-    <strong>◉ Vigia Digital</strong>
-  </header>
-
-  <main>
-    <h1>Visão geral</h1>
-    <p class="muted">Veja o que está acompanhado e o que precisa de atenção.</p>
-
-    <div class="demo">
-      <strong>Demonstração:</strong> os dados são ilustrativos. Este site não verifica
-      domínios nem bloqueia ataques.
-    </div>
-
-    <section class="cards" aria-label="Resumo">
-      <article class="card">
-        <div class="muted">Sites e sistemas acompanhados</div>
-        <div class="number">12 de 14</div>
-        <div class="muted">2 aguardam confirmação de autorização</div>
-      </article>
-
-      <article class="card">
-        <div class="muted">Precisam de atenção</div>
-        <div class="number">3</div>
-        <div class="muted">Avisos demonstrativos</div>
-      </article>
-
-      <article class="card">
-        <div class="muted">Problemas urgentes</div>
-        <div class="number">1</div>
-        <div class="muted">Requer revisão da equipe</div>
-      </article>
-    </section>
-
-    <section class="panel urgent">
-      <span class="tag">Problema urgente</span>
-      <h2>Revise quem pode acessar a área administrativa</h2>
-      <p>
-        Uma configuração pode permitir acesso a funções importantes por pessoas
-        que talvez não precisem delas. Peça à equipe responsável para revisar as permissões.
-      </p>
-      <p><strong>Sistema:</strong> Painel da empresa</p>
-      <p><strong>Responsável:</strong> Ana Souza</p>
-      <p><strong>Prazo:</strong> hoje</p>
-      <button onclick="alert('Demonstração: nenhuma correção ou verificação foi executada.')">
-        Ver como corrigir
-      </button>
-    </section>
-
-    <section class="panel">
-      <h2>Outros avisos</h2>
-
-      <div class="row">
-        <strong>Certificado do site perto de vencer</strong>
-        <p class="muted">Renove-o para evitar avisos de segurança aos visitantes.</p>
-      </div>
-
-      <div class="row">
-        <strong>2 sites ainda não são acompanhados</strong>
-        <p class="muted">A autorização para monitorá-los ainda precisa ser confirmada.</p>
-      </div>
-    </section>
-
-    <section class="panel">
-      <h2>Adicionar um site à demonstração</h2>
-      <p class="muted">
-        Informe apenas um domínio próprio ou autorizado. O formulário não acessa o site.
-      </p>
-      <form id="form">
-        <input id="domain" placeholder="empresa.com" required>
-        <button type="submit">Adicionar</button>
-      </form>
-      <p id="message" class="muted" aria-live="polite"></p>
-      <div id="list"></div>
-    </section>
-  </main>
-
-  <script>
-    document.getElementById("form").addEventListener("submit", function(event) {
-      event.preventDefault();
-
-      const input = document.getElementById("domain");
-      const domain = input.value.trim();
-
-      const item = document.createElement("div");
-      item.className = "row";
-      item.textContent = domain + " — adicionado à demonstração; não verificado.";
-
-      document.getElementById("list").prepend(item);
-      document.getElementById("message").textContent =
-        "Nenhuma conexão foi feita com o domínio.";
-      input.value = "";
-    });
-  </script>
-</body>
-</html>
+    .urgent-meta {
+      display: flex;
+      gap: 30px;
+      margin-top
