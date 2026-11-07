@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Vigia Digital — Demonstração</title>
+  <style>
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font: 16px Arial, sans-serif;
+      color: #173042;
+      background: #f3f6f8;
+    }
+
+    header {
+      padding: 20px 7%;
+      color: white;
+      background: #102a43;
+    }
+
+    header strong { font-size: 22px; }
+
+    main {
+      max-width: 1050px;
+      margin: 32px auto;
+      padding: 0 20px;
+    }
+
+    .demo {
+      padding: 12px 16px;
+      border: 1px solid #b9d9e7;
+      border-radius: 8px;
+      background: #eaf3f8;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      margin: 20px 0;
+    }
+
+    .card, .panel {
+      padding: 20px;
+      border: 1px solid #d9e2e8;
+      border-radius: 10px;
+      background: white;
+    }
+
+    .number { margin-top: 8px; font-size: 30px; font-weight: bold; }
+    .muted { color: #526777; }
+
+    .urgent {
+      border-left: 5px solid #a82727;
+      background: #fffafa;
+    }
+
+    .tag {
+      display: inline-block;
+      padding: 5px 9px;
+      border-radius: 20px;
+      color: #8a2020;
+      background: #fff0ef;
+      font-size: 13px;
+      font-weight: bold;
+    }
+
+    button {
+      padding: 11px 15px;
+      border: 0;
+      border-radius: 7px;
+      color: white;
+      background: #087e8b;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    button:hover { background: #06636d; }
+
+    .row {
+      padding: 15px 0;
+      border-top: 1px solid #d9e2e8;
+    }
+
+    input {
+      max-width: 420px;
+      width: 100%;
+      padding: 11px;
+      border: 1px solid #9eb0bc;
+      border-radius: 7px;
+    }
+
+    @media (max-width: 650px) {
+      .cards { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <strong>◉ Vigia Digital</strong>
+  </header>
+
+  <main>
+    <h1>Visão geral</h1>
+    <p class="muted">Veja o que está acompanhado e o que precisa de atenção.</p>
+
+    <div class="demo">
+      <strong>Demonstração:</strong> os dados são ilustrativos. Este site não verifica
+      domínios nem bloqueia ataques.
+    </div>
+
+    <section class="cards" aria-label="Resumo">
+      <article class="card">
+        <div class="muted">Sites e sistemas acompanhados</div>
+        <div class="number">12 de 14</div>
+        <div class="muted">2 aguardam confirmação de autorização</div>
+      </article>
+
+      <article class="card">
+        <div class="muted">Precisam de atenção</div>
+        <div class="number">3</div>
+        <div class="muted">Avisos demonstrativos</div>
+      </article>
+
+      <article class="card">
+        <div class="muted">Problemas urgentes</div>
+        <div class="number">1</div>
+        <div class="muted">Requer revisão da equipe</div>
+      </article>
+    </section>
+
+    <section class="panel urgent">
+      <span class="tag">Problema urgente</span>
+      <h2>Revise quem pode acessar a área administrativa</h2>
+      <p>
+        Uma configuração pode permitir acesso a funções importantes por pessoas
+        que talvez não precisem delas. Peça à equipe responsável para revisar as permissões.
+      </p>
+      <p><strong>Sistema:</strong> Painel da empresa</p>
+      <p><strong>Responsável:</strong> Ana Souza</p>
+      <p><strong>Prazo:</strong> hoje</p>
+      <button onclick="alert('Demonstração: nenhuma correção ou verificação foi executada.')">
+        Ver como corrigir
+      </button>
+    </section>
+
+    <section class="panel">
+      <h2>Outros avisos</h2>
+
+      <div class="row">
+        <strong>Certificado do site perto de vencer</strong>
+        <p class="muted">Renove-o para evitar avisos de segurança aos visitantes.</p>
+      </div>
+
+      <div class="row">
+        <strong>2 sites ainda não são acompanhados</strong>
+        <p class="muted">A autorização para monitorá-los ainda precisa ser confirmada.</p>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2>Adicionar um site à demonstração</h2>
+      <p class="muted">
+        Informe apenas um domínio próprio ou autorizado. O formulário não acessa o site.
+      </p>
+      <form id="form">
+        <input id="domain" placeholder="empresa.com" required>
+        <button type="submit">Adicionar</button>
+      </form>
+      <p id="message" class="muted" aria-live="polite"></p>
+      <div id="list"></div>
+    </section>
+  </main>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", function(event) {
+      event.preventDefault();
+
+      const input = document.getElementById("domain");
+      const domain = input.value.trim();
+
+      const item = document.createElement("div");
+      item.className = "row";
+      item.textContent = domain + " — adicionado à demonstração; não verificado.";
+
+      document.getElementById("list").prepend(item);
+      document.getElementById("message").textContent =
+        "Nenhuma conexão foi feita com o domínio.";
+      input.value = "";
+    });
+  </script>
+</body>
+</html>
